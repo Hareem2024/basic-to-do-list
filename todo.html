@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task Pal - To-Do</title>
+  <style>
+    /* General Reset */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: url('background.jpg') no-repeat center center/cover;
+    }
+
+    .container {
+      text-align: center;
+      padding: 30px;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 20px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .title {
+      font-family: 'Poppins', sans-serif;
+      font-size: 36px;
+      color: #000;
+      margin-bottom: 20px;
+    }
+
+    .task-input {
+      font-family: 'Poppins', sans-serif;
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .add-task-button {
+      display: inline-block;
+      background: #4f4f4f;
+      color: #fff;
+      font-size: 16px;
+      font-weight: bold;
+      padding: 10px 20px;
+      border-radius: 30px;
+      text-decoration: none;
+      margin-bottom: 20px;
+      transition: background 0.3s ease;
+    }
+
+    .add-task-button:hover {
+      background: #333;
+    }
+
+    .tasks-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-family: 'Baskerville', serif;
+    }
+
+    .task-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #f4f4f4;
+      margin: 10px 0;
+      padding: 10px 15px;
+      border-radius: 10px;
+    }
+
+    .task-item input[type="checkbox"] {
+      margin-right: 10px;
+    }
+
+    .task-item span {
+      font-size: 16px;
+    }
+
+    .task-item button {
+      background: #e74c3c;
+      color: #fff;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .task-item button:hover {
+      background: #c0392b;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="title">To-do List</div>
+    <input type="text" id="task-input" class="task-input" placeholder="Enter your task here">
+    <button class="add-task-button" onclick="addTask()">Add Task</button>
+    <ul id="tasks-list" class="tasks-list"></ul>
+  </div>
+
+  <script>
+    function addTask() {
+      const taskInput = document.getElementById('task-input');
+      const tasksList = document.getElementById('tasks-list');
+
+      if (taskInput.value.trim() === '') {
+        alert('Please enter a task!');
+        return;
+      }
+
+      const taskItem = document.createElement('li');
+      taskItem.className = 'task-item';
+
+      taskItem.innerHTML = `
+        <input type="checkbox">
+        <span>${taskInput.value}</span>
+        <button onclick="removeTask(this)">Remove</button>
+      `;
+
+      tasksList.appendChild(taskItem);
+      taskInput.value = '';
+    }
+
+    function removeTask(button) {
+      const taskItem = button.parentElement;
+      taskItem.remove();
+    }
+  </script>
+</body>
+</html>
+
