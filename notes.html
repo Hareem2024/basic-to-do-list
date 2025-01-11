@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task Pal - Notes</title>
+  <style>
+    body {
+      width: 100%;
+      height: 100%;
+      background-image: repeating-linear-gradient(0deg, black, 1px, white 1px, white);
+      background-size: 100% 30px;
+      background-color: white;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      padding: 20px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+      max-width: 600px;
+      width: 100%;
+    }
+
+    .note {
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.8);
+      max-width: 100%;
+      width: calc(100% - 20px);
+    }
+
+    .edit-button, .delete-button, .save-button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .edit-button, .save-button {
+      background-color: #000000;
+      color: white;
+    }
+
+    .edit-button:hover, .save-button:hover, .delete-button:hover {
+      background-color: #333333;
+    }
+
+    .delete-button {
+      background-color: #dc3545;
+      color: white;
+    }
+
+    .delete-button:hover {
+      background-color: #c82333;
+    }
+
+    .note-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #000000;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .nav-button:hover {
+      background: #000000;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2 contenteditable="true">Notes</h2>
+    <div id="notesList"></div>
+    <div class="note-title">
+      <button class="edit-button" onclick="createNote()">Add Note</button> 
+    </div>
+    <button class="nav-button" onclick="window.location.href='add_note.html'">Add More Notes</button> 
+  </div>
+
+  <script>
+    function createNote() {
+      const notesList = document.getElementById('notesList');
+      if (notesList.children.length < 1) { 
+        const newNoteHTML = `
+          <div class="note" contenteditable="true">Write your note here...</div>
+          <button class="save-button" onclick="saveNote(this)">Save</button>
+          <button class="delete-button" onclick="deleteNote(this)">Delete</button>
+        `;
+        notesList.insertAdjacentHTML('beforeend', newNoteHTML);
+      } else {
+        alert("You can only add one note here. Click 'Add More Notes' to create a new note on a different page.");
+      }
+    }
+
+    function saveNote(button) {
+      const note = button.previousElementSibling;
+      const noteContent = note.innerText;
+      alert("Note saved: " + noteContent);
+    }
+
+    function deleteNote(button) {
+      const noteElement = button.parentElement; 
+      noteElement.remove(); 
+      alert("Note deleted!");
+    }
+  </script>
+</body>
+</html>

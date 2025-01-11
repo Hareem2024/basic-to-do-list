@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Task Pal - To-Do</title>
+  <title>Task Pal - Checklist</title>
   <style>
-    /* General Reset */
+ 
     body {
       margin: 0;
       padding: 0;
@@ -34,109 +34,116 @@
       margin-bottom: 20px;
     }
 
-    .task-input {
-      font-family: 'Poppins', sans-serif;
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      font-size: 16px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-
-    .add-task-button {
-      display: inline-block;
-      background: #4f4f4f;
-      color: #fff;
-      font-size: 16px;
-      font-weight: bold;
-      padding: 10px 20px;
-      border-radius: 30px;
-      text-decoration: none;
+    #checklist {
+      background: #fff;
+      border-radius: 10px;
+      position: relative;
+      box-shadow: 0 10px 30px rgba(65, 72, 86, 0.05);
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
       margin-bottom: 20px;
-      transition: background 0.3s ease;
     }
 
-    .add-task-button:hover {
-      background: #333;
-    }
-
-    .tasks-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      font-family: 'Baskerville', serif;
-    }
-
-    .task-item {
+    .task {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      background: #f4f4f4;
-      margin: 10px 0;
-      padding: 10px 15px;
-      border-radius: 10px;
+      margin-bottom: 10px;
+      transition: text-decoration 0.3s ease;
     }
 
-    .task-item input[type="checkbox"] {
-      margin-right: 10px;
+    .task.completed label {
+      text-decoration: line-through;
+      color: #c3c8de;
     }
 
-    .task-item span {
-      font-size: 16px;
+    .input-group {
+      display: flex;
+      flex-direction: row;
+      margin: 0 auto;
+      justify-content: center;
+      max-width: 300px;
     }
 
-    .task-item button {
-      background: #e74c3c;
-      color: #fff;
-      border: none;
-      padding: 5px 10px;
-      border-radius: 5px;
+    .submit-button {
+      font-size: 17px;
+      padding: 0.5em 2em;
+      border: transparent;
+      box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24);
+      background: #2E2E2E;
+      border-radius: 0 10px 10px 0;
+      transition: 0.3s;
+    }
+
+    .submit-button:hover {
+      background: linear-gradient(90deg, #FC466B 0%, #3F5EFB 100%);
       cursor: pointer;
+    }
+
+    #input-field {
+      background-color: #2E2E2E;
+      border-radius: 10px 0 0 10px;
+      border: none;
+      width: 200px;
+      padding-left: 8px;
+      color: white;
       font-size: 14px;
     }
 
-    .task-item button:hover {
-      background: #c0392b;
+    .nav-button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #000000;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .nav-button:hover {
+      background: #000000;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="title">To-do List</div>
-    <input type="text" id="task-input" class="task-input" placeholder="Enter your task here">
-    <button class="add-task-button" onclick="addTask()">Add Task</button>
-    <ul id="tasks-list" class="tasks-list"></ul>
+    <div class="title">Checklist</div>
+    <div id="checklist"></div>
+    
+    <div class="input-group">
+      <input placeholder="Enter new item here" type="text" id="input-field">
+      <button class="submit-button" onclick="addItem()"><span>ADD</span></button>
+    </div>
+    
+    <button class="nav-button" onclick="window.location.href='notes.html'">Go to Notes</button>
   </div>
 
   <script>
-    function addTask() {
-      const taskInput = document.getElementById('task-input');
-      const tasksList = document.getElementById('tasks-list');
+    function addItem() {
+      const checklist = document.getElementById('checklist');
+      const newItemText = document.getElementById('input-field').value.trim();
 
-      if (taskInput.value.trim() === '') {
-        alert('Please enter a task!');
-        return;
+      if (newItemText) {
+        const newItemId = `item-${Date.now()}`;
+        const newItemHTML = `
+          <div class="task" id="${newItemId}">
+            <div class="cntr">
+              <input type="checkbox" id="cbx-${newItemId}" class="hidden-xs-up" onclick="toggleCompletion('${newItemId}')">
+              <label for="cbx-${newItemId}" class="cbx"></label>
+            </div>
+            <label for="cbx-${newItemId}">${newItemText}</label>
+          </div>
+        `;
+        checklist.insertAdjacentHTML('beforeend', newItemHTML);
+        document.getElementById('input-field').value = ''; 
       }
-
-      const taskItem = document.createElement('li');
-      taskItem.className = 'task-item';
-
-      taskItem.innerHTML = `
-        <input type="checkbox">
-        <span>${taskInput.value}</span>
-        <button onclick="removeTask(this)">Remove</button>
-      `;
-
-      tasksList.appendChild(taskItem);
-      taskInput.value = '';
     }
 
-    function removeTask(button) {
-      const taskItem = button.parentElement;
-      taskItem.remove();
+    function toggleCompletion(itemId) {
+      const taskElement = document.getElementById(itemId);
+      taskElement.classList.toggle('completed');
     }
   </script>
 </body>
 </html>
-
